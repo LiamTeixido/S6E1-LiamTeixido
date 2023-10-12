@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IObserver
 {
     private Rigidbody rb;
     [SerializeField]
@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         rb.velocity = new Vector3(0, rb.velocity.y, speed);
+        //transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
     public void TakeDamage(int damage)
@@ -38,9 +39,18 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        //GameObject.Find("GameManager").GetComponent<GameManager>().Attach(this);
         GameManager.Instance.OnProgressionChanged += Execute;
     }
 
+    /*public void Execute(ISubject subject)
+    {
+        if(subject is GameManager)
+        {
+            speed = ((GameManager)subject).Progression;
+        }
+    }
+    */
     private void Execute(int value)
     {
         speed = value;
@@ -50,5 +60,4 @@ public class Enemy : MonoBehaviour
     {
         GameManager.Instance.OnProgressionChanged -= Execute;
     }
-
 }
