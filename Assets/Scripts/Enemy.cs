@@ -36,4 +36,19 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        GameManager.Instance.OnProgressionChanged += Execute;
+    }
+
+    private void Execute(int value)
+    {
+        speed = value;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnProgressionChanged -= Execute;
+    }
+
 }
